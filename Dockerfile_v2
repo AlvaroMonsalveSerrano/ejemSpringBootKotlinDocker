@@ -1,0 +1,23 @@
+# Example 2 Dockerfile
+#
+# + Create image:
+#
+#   docker image build -t alvaroms/ejem1kotlindocker:v2 .
+#
+# + List image:
+#
+#   docker image list
+#
+#   alvaroms/ejem1kotlindocker   v2                  7be04582648a        2 hours ago         149MB
+#
+FROM openjdk:8-jdk-alpine
+VOLUME /tmp
+RUN mkdir /app
+WORKDIR /app
+EXPOSE 8080
+ADD ./ejem1kotlindocker.jar /app/ejem1kotlindocker.jar
+ENTRYPOINT ["java", "-jar", "/app/ejem1kotlindocker.jar"]
+
+
+
+

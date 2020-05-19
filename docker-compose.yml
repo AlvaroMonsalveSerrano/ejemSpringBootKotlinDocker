@@ -1,0 +1,42 @@
+version: '3'
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=prueba
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - 3306:3306
+    volumes:
+      - mysqlvolume:/var/lib/mysql
+    networks:
+      - mysqlnetwork
+
+  kotlindocker:
+    depends_on:
+      - mysql
+    container_name: kotlindocker
+#    image: alvaroms/ejem1kotlindocker:v4
+    build: ./
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    ports:
+      - 8087:8080
+    volumes:
+      - kotlinvolume:/var/lib/kotlin
+    networks:
+      - kotlinnetwork
+      - mysqlnetwork
+
+volumes:
+  kotlinvolume:
+  mysqlvolume:
+
+networks:
+  kotlinnetwork:
+    driver_opts:
+      com.docker.network.bridge.name: kotlinNetwork
+  mysqlnetwork:
+    driver_opts:
+      com.docker.network.bridge.name: MySQLNetwork
